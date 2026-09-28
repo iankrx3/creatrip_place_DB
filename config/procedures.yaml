@@ -1,0 +1,175 @@
+# 시술 사전: 옵션 이름/설명에 keywords 중 하나가 들어 있으면 그 시술로 본다 (대소문자 무시).
+# target: skin (피부결·톤·트러블) | face (윤곽·리프팅·볼륨) | body | hair | nail | brow_lip | color | photo | relax
+# downtime_grade: none (당일 사진 OK) | low (1~2일 붉은기·부기) | high (3일 이상, 딱지·멍)
+# downtime_days: [최소, 최대] 일반적인 회복 일수. 페이지에 명시가 있으면 페이지 값이 우선한다.
+# 값은 일반적인 임상 안내 기준의 보수적 추정치이며 source: dictionary 로 표시된다.
+# subtype_keywords: 해당 subtype 장소에서만 쓰는 넓은 키워드 (예: 반영구샵의 "eyebrow")
+# exclude_subtypes: 이 subtype 장소에서는 매칭하지 않는다 (예: 헤어샵의 "filler care" 는 필러 시술이 아님)
+
+procedures:
+  # --- 피부과: face (윤곽 / 리프팅 / 볼륨) ---
+  botox:
+    keywords: [botox, xeomin, botulinum, dysport, nabota, coretox, "jaw reduction", "masseter"]
+    target: face
+    downtime_grade: none
+    downtime_days: [0, 1]
+  filler:
+    keywords: [filler, juvederm, restylane, "belotero", "chaeum", "lip filler"]
+    exclude_subtypes: [hair_salon, makeup, personal_color, nail_art]
+    target: face
+    downtime_grade: low
+    downtime_days: [1, 3]
+  hifu:
+    keywords: [hifu, shurink, doublo, ulthera, ultherapy, contrex, liftera, ultraformer, volnewmer]
+    target: face
+    downtime_grade: none
+    downtime_days: [0, 1]
+  rf_lifting:
+    keywords: [thermage, oligio, onda, inmode, "titanium laser", titanium, potenza, sylfirm, fortra, tuneface, "tune face"]
+    target: face
+    downtime_grade: none
+    downtime_days: [0, 1]
+  thread_lift:
+    keywords: ["thread lift", "thread lifting", mint lift, "silhouette soft"]
+    target: face
+    downtime_grade: high
+    downtime_days: [3, 7]
+  volume_booster:
+    keywords: [juvelook volume, sculptra, radiesse, "lenisna", "gouri"]
+    target: face
+    downtime_grade: low
+    downtime_days: [1, 3]
+  fat_dissolve:
+    keywords: ["fat dissolving", "fat-dissolving", "kabelline", "contour injection", "v-line injection"]
+    target: face
+    downtime_grade: low
+    downtime_days: [1, 3]
+
+  # --- 피부과: skin (피부결 / 톤 / 트러블) ---
+  skin_booster:
+    keywords: [rejuran, juvelook, "skin booster", "exosome", "profhilo", "chanel injection", "baby botox", "skin botox", "dermashine", "salmon", "pdrn", "ha booster"]
+    target: skin
+    downtime_grade: low
+    downtime_days: [1, 3]
+  laser_toning:
+    keywords: [toning, "pico toning", "picotoning", "laser toning", "whitening laser", "brightening", "pigment", "melasma"]
+    target: skin
+    downtime_grade: none
+    downtime_days: [0, 1]
+  pico_fractional:
+    keywords: ["pico frax", "picofrax", "pico fractional", "picosure", "pico laser", "pico plus"]
+    target: skin
+    downtime_grade: low
+    downtime_days: [2, 4]
+  ablative_laser:
+    keywords: ["co2", "fraxel", "fractional laser", "erbium", "scar laser", "mole removal", "dot removal"]
+    target: skin
+    downtime_grade: high
+    downtime_days: [5, 7]
+  microneedle:
+    keywords: [microneedle, microneedling, "ellisys", "ellisis", "secret rf", "genius rf", "agnes", "mts"]
+    target: skin
+    downtime_grade: low
+    downtime_days: [2, 4]
+  acne:
+    keywords: [acne, "acu toning", "gold ptt", "extraction", "trouble care", "pimple"]
+    target: skin
+    downtime_grade: low
+    downtime_days: [0, 2]
+  peel:
+    keywords: ["aqua peel", "lhala peel", "lala peel", "chemical peel", "peeling", "hydrafacial", "hydra facial", "exfoliation", "exfoliating"]
+    target: skin
+    downtime_grade: none
+    downtime_days: [0, 1]
+  soothing:
+    keywords: ["cryo", "soothing", "regeneration laser", "ldm", "led", "moisturizing mask", "facial care", "skin care", "skincare", "facial"]
+    target: skin
+    downtime_grade: none
+    downtime_days: [0, 0]
+
+  # --- 반영구 ---
+  brow_tattoo:
+    keywords: ["eyebrow tattoo", "brow tattoo", "semi-permanent eyebrow", "semi-permanent brow", "hairstroke", "hair stroke", "ombre brow", "combo brow", "powder brow", microblading, "eyebrow embroidery"]
+    subtype_keywords:
+      permanent_makeup: [eyebrow, eyebrows, brow, brows]
+    target: brow_lip
+    downtime_grade: high
+    downtime_days: [5, 7]
+  lip_tattoo:
+    keywords: ["lip blush", "lip tattoo", "semi-permanent lip", "lip semi-permanent", "lip pigmentation"]
+    subtype_keywords:
+      permanent_makeup: [lip, lips]
+    target: brow_lip
+    downtime_grade: high
+    downtime_days: [5, 7]
+  eyeliner_tattoo:
+    keywords: ["eyeliner tattoo", "semi-permanent eyeliner", "lash line tattoo"]
+    subtype_keywords:
+      permanent_makeup: [eyeliner, "eye line", "lash line"]
+    target: brow_lip
+    downtime_grade: low
+    downtime_days: [2, 4]
+  scalp_tattoo:
+    keywords: ["scalp micropigmentation", "smp", "hairline tattoo"]
+    target: hair
+    downtime_grade: low
+    downtime_days: [2, 4]
+
+  # --- 헤어 / 메이크업 / 퍼스널컬러 / 네일 / 사진 ---
+  hair_cut_style:
+    keywords: [haircut, "hair cut", cut, perm, "hair color", dye, bleach, "hair styling", "hair clinic", "hair treatment", "magic straight", "down perm", "head spa", "scalp care", "scalp spa"]
+    target: hair
+    downtime_grade: none
+    downtime_days: [0, 0]
+  makeup:
+    keywords: [makeup, "make-up", "make up", "hair and makeup", "hair & makeup"]
+    target: face
+    downtime_grade: none
+    downtime_days: [0, 0]
+  personal_color:
+    keywords: ["personal color", "color analysis", "colour analysis", "color diagnosis", "image consulting", "face shape"]
+    target: color
+    downtime_grade: none
+    downtime_days: [0, 0]
+  nail:
+    keywords: [nail, gel, pedicure, manicure, "nail art"]
+    target: nail
+    downtime_grade: none
+    downtime_days: [0, 0]
+  lash_lift:
+    keywords: ["lash lift", "lash perm", "eyelash perm", "eyelash extension", "lash extension", "keratin lash"]
+    target: face
+    downtime_grade: none
+    downtime_days: [0, 1]
+  waxing:
+    keywords: [waxing, wax, "hair removal", "brazilian"]
+    target: body
+    downtime_grade: low
+    downtime_days: [0, 1]
+  photo:
+    keywords: [photo, "profile shoot", "id photo", portrait, snapshot, "photo shoot", "photoshoot", "studio"]
+    target: photo
+    downtime_grade: none
+    downtime_days: [0, 0]
+
+  # --- RESTORE (사우나 / 스크럽 / 마사지 / 요가) ---
+  sauna:
+    keywords: [sauna, jjimjilbang, "jjim", "bathhouse", "bath house", "hot spring", onsen, "public bath"]
+    target: relax
+    downtime_grade: none
+    downtime_days: [0, 0]
+  body_scrub:
+    keywords: [scrub, "seshin", "body wash", "ttemiri", "exfoliation body", "body exfoliation"]
+    target: body
+    downtime_grade: none
+    downtime_days: [0, 0]
+  massage:
+    keywords: [massage, aroma, lymph, "foot bath", reflexology, "sports massage", "thai", "swedish", "acupressure"]
+    target: relax
+    downtime_grade: none
+    downtime_days: [0, 0]
+  yoga_wellness:
+    keywords: [yoga, pilates, meditation, "sound bath", "singing bowl", "tea ceremony", "temple stay", wellness, "breathing"]
+    target: relax
+    downtime_grade: none
+    downtime_days: [0, 0]

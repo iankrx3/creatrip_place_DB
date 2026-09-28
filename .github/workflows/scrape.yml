@@ -1,0 +1,80 @@
+name: scrape-creatrip
+
+on:
+  schedule:
+    - cron: "0 18 * * *" # 매일 03:00 KST
+  workflow_dispatch:
+    inputs:
+      categories:
+        description: "쉼표로 구분한 subtype (비우면 전체). 예: dermatology,sauna"
+        required: false
+        default: ""
+      per_category:
+        description: "카테고리마다 새로 저장할 장소 수"
+        required: false
+        default: "10"
+      refresh:
+        description: "새 장소 대신 이미 저장된 장소를 다시 수집"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: scrape-creatrip
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Unit tests (fixtures, no network)
+        run: pytest -q
+
+      # ubuntu-latest 러너에는 Google Chrome 이 설치돼 있고, 드라이버는 Selenium Manager 가 맞춰 받는다
+      - name: Scrape
+        env:
+          CATEGORIES: ${{ inputs.categories }}
+          PER_CATEGORY: ${{ inputs.per_category || '10' }}
+          REFRESH: ${{ inputs.refresh }}
+        run: |
+          args=(--per-category "$PER_CATEGORY")
+          [ -n "$CATEGORIES" ] && args+=(--categories "$CATEGORIES")
+          [ "$REFRESH" = "true" ] && args+=(--refresh)
+          python -m scraper "${args[@]}"
+
+      - name: Upload raw snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-${{ github.run_id }}
+          path: data/raw/
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Open pull request with updated DB
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: scrape/auto-update
+          delete-branch: true
+          add-paths: |
+            data/places.json
+            data/places.csv
+            data/coverage.md
+            data/failed.json
+            data/last_run.md
+          commit-message: "data: update creatrip places (run ${{ github.run_id }})"
+          title: "data: creatrip 장소 DB 업데이트"
+          body-path: data/last_run.md

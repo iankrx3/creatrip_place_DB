@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+# 원본 스냅샷은 커밋하지 않고 Actions artifact 로 보관한다
+data/raw/

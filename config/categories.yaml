@@ -1,0 +1,56 @@
+# 수집 대상 카테고리.
+# key 는 내부 subtype 이름, onboarding 은 온보딩 질문 그룹(FIX / CHANGE / RESTORE / PHOTO).
+# needs_before: 이 카테고리 장소를 방문하기 "전날" 먼저 받아두면 좋은 subtype (루틴 배치용).
+# 목록 URL: https://creatrip.com/en/spot/list?page=N&category={category}[&middleCategory={middle}&direction=DESC]&order=MOST_VIEWED_IN_A_MONTH
+
+categories:
+  dermatology:
+    category: 3068
+    onboarding: FIX
+  personal_color:
+    category: 403
+    middle: 926
+    onboarding: CHANGE
+  hair_salon:
+    category: 3028
+    onboarding: CHANGE
+  makeup:
+    category: 403
+    middle: 878
+    onboarding: CHANGE
+  permanent_makeup:
+    category: 403
+    middle: 3037
+    onboarding: CHANGE
+  photo_studio:
+    category: 403
+    middle: 3082
+    onboarding: PHOTO
+    # 사진은 피부 시술 / 헤어 / 퍼스널컬러 다음 날에 찍는 게 좋다
+    needs_before: [dermatology, hair_salon, personal_color]
+  nail_art:
+    category: 403
+    middle: 886
+    onboarding: CHANGE
+  sauna:
+    category: 3070
+    middle: 3085
+    onboarding: RESTORE
+  body_scrub:
+    category: 3070
+    middle: 3083
+    onboarding: RESTORE
+  massage:
+    category: 3070
+    middle: 3086
+    onboarding: RESTORE
+  yoga_wellness:
+    category: 3070
+    middle: 3084
+    onboarding: RESTORE
+
+# 실행 한 번에 카테고리마다 새로 저장할 장소 수 (CLI --per-category 로 덮어쓰기 가능)
+per_category: 10
+
+# KRW만 있는 가격을 USD로 바꿀 때 쓰는 고정 환율. 사이트가 USD를 보여주면 그 값을 우선한다.
+krw_per_usd: 1358
