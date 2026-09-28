@@ -67,6 +67,7 @@ jobs:
       - name: Open pull request with updated DB
         uses: peter-evans/create-pull-request@v7
         with:
+          token: ${{ secrets.PAT_TOKEN }}  # Add this line
           branch: scrape/auto-update
           delete-branch: true
           add-paths: |
